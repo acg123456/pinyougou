@@ -45,10 +45,38 @@ var app = new Vue({
             this.entity.customAttributeItems.push({});
         },
         searchList: function (curPage) {
+            var arr;
+
             this.pageNum = curPage;
             axios.post("../typeTemplate/search.do?pageNum=" + this.pageNum + "&pageSize=" + this.pageSize, this.searchEntity).then(function (response) {
                 //this表示axios；所以使用app设置entityList的数据
                 app.entityList = response.data.list;
+                for (var i = 0;i<app.entityList.length;i++){
+                    var brandList = [];
+                    var specList = [];
+                    var customAttributeList = [];
+                    arrBrand = JSON.parse(app.entityList[i].brandIds);
+                    arrSpec = JSON.parse(app.entityList[i].specIds);
+                    arrCustom = JSON.parse(app.entityList[i].customAttributeItems);
+                    for (var j = 0;j<arrBrand.length;j++){
+                       brandList.push(arrBrand[j].text);
+                    }
+                    var joinBrands = brandList.join(",");
+                    app.entityList[i].brandIds = joinBrands;
+
+                    for (var j = 0;j<arrSpec.length;j++){
+                        specList.push(arrSpec[j].text);
+                    }
+                    var joinSpecs = specList.join(",");
+                    app.entityList[i].specIds = joinSpecs;
+
+                    for (var j = 0;j<arrCustom.length;j++){
+                        customAttributeList.push(arrCustom[j].text);
+                    }
+                    var joinCustom = customAttributeList.join(",");
+                    app.entityList[i].customAttributeItems = joinCustom
+
+                }
                 app.total = response.data.total;
             });
         },
@@ -71,7 +99,7 @@ var app = new Vue({
         },
         //根据主键查询
         findOne: function (id) {
-            axios.get("../typeTemplate/findOne/" + id + ".do").then(function (response) {
+            axios.get("../typeTemplate/findOne.do?id=" + id).then(function (response) {
                 app.entity = response.data;
                 //字符串类型内容转换为json对象，vue才能对对象进行处理
                 app.entity.brandIds = JSON.parse(app.entity.brandIds);

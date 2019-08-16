@@ -53,7 +53,7 @@ var app = new Vue({
         },
         //根据主键查询
         findOne: function (id) {
-            axios.get("../specification/findOne/" + id + ".do").then(function (response) {
+            axios.get("../specification/findOne.do?id=" + id).then(function (response) {
                 app.entity = response.data;
             });
         },

@@ -7,7 +7,10 @@ import com.pinyougou.sellergoods.service.BrandService;
 import com.pinyougou.vo.Result;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RequestMapping("/brand")
 @RestController
@@ -15,6 +18,24 @@ public class BrandController {
 
     @Reference(timeout = 3000)
     private BrandService brandService;
+
+    /**
+     * 根据模板查询品牌
+     * @return 品牌下拉框列表
+     */
+    @GetMapping("/selectOptionList.do")
+    public List<Map<String,Object>> optionList(){
+        List<TbBrand> brandList = brandService.findAll();
+        HashMap<String, Object> map = null;
+        ArrayList<Map<String,Object>> list = new ArrayList<>();
+        for (TbBrand tbBrand : brandList) {
+            map = new HashMap<>();
+            map.put("id",tbBrand.getId());
+            map.put("text",tbBrand.getName());
+            list.add(map);
+        }
+        return list;
+    }
 
     /**
      * 根据品牌id查询品牌

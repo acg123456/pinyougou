@@ -64,5 +64,6 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
         if (ids != null && ids.length > 0) {
             baseMapper.deleteByIds(StringUtils.join(ids, ","));
         }
+
     }
 }
