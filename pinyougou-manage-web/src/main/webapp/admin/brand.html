@@ -33,6 +33,7 @@
             <div class="pull-left">
                 <div class="form-group form-inline">
                     <div class="btn-group">
+                        <!--@click="entity={}"绑定事件@click后面可以直接写表达式-->
                         <button @click="entity={}" type="button" class="btn btn-default" title="新建" data-toggle="modal" data-target="#editModal"><i class="fa fa-file-o"></i> 新建</button>
                         <button @click="deleteList()" type="button" class="btn btn-default" title="删除"><i class="fa fa-trash-o"></i> 删除</button>
                         <button type="button" class="btn btn-default" title="刷新" onclick="window.location.reload();"><i class="fa fa-refresh"></i> 刷新</button>
@@ -53,7 +54,8 @@
                 <thead>
                 <tr>
                     <th class="" style="padding-right:0px">
-                        <input id="selall" type="checkbox" class="icheckbox_square-blue">
+                        <label>反选</label><input type="checkbox" @click="checkInverse()">
+                        <input id="selall" type="checkbox" class="icheckbox_square-blue" @click="checkAll()" v-model="checkedFlag">
                     </th>
                     <th class="sorting_asc">品牌ID</th>
                     <th class="sorting">品牌名称</th>
@@ -66,7 +68,7 @@
                     <td><input :value="entity.id" v-model="ids" type="checkbox"></td>
                     <td>{{entity.id}}</td>
                     <td>{{entity.name}}</td>
-                    <td>{{entity.firstChar}}</td>
+                    <td>{{entity.firstChar|transferLowercase}}</td>
                     <td class="text-center">
                         <button @click="findOne(entity.id)" type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal">修改</button>
                     </td>
@@ -80,7 +82,6 @@
         <!-- 数据表格 /-->
         <!-- 分页导航条 -->
         <navigation :total="total" :pageSize="pageSize" :current.sync="pageNum" @navpage="searchList"></navigation>
-
 
     </div>
     <!-- /.box-body -->

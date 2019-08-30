@@ -14,6 +14,10 @@
         <module>pinyougou-dao</module>
         <module>pinyougou-sellergoods</module>
         <module>pinyougou-manage-web</module>
+        <module>pinyougou-shop-web</module>
+        <module>pinyougou-item-import</module>
+        <module>pinyougou-search</module>
+        <module>pinyougou-search-web</module>
     </modules>
 
     <description>父工程锁定依赖、插件等的版本</description>

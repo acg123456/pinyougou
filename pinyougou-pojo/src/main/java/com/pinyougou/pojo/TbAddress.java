@@ -133,4 +133,42 @@ public class TbAddress implements Serializable {
     public void setAlias(String alias) {
         this.alias = alias;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        TbAddress tbAddress = (TbAddress) o;
+
+        if (id != null ? !id.equals(tbAddress.id) : tbAddress.id != null) return false;
+        if (userId != null ? !userId.equals(tbAddress.userId) : tbAddress.userId != null) return false;
+        if (provinceId != null ? !provinceId.equals(tbAddress.provinceId) : tbAddress.provinceId != null) return false;
+        if (cityId != null ? !cityId.equals(tbAddress.cityId) : tbAddress.cityId != null) return false;
+        if (townId != null ? !townId.equals(tbAddress.townId) : tbAddress.townId != null) return false;
+        if (mobile != null ? !mobile.equals(tbAddress.mobile) : tbAddress.mobile != null) return false;
+        if (address != null ? !address.equals(tbAddress.address) : tbAddress.address != null) return false;
+        if (contact != null ? !contact.equals(tbAddress.contact) : tbAddress.contact != null) return false;
+        if (isDefault != null ? !isDefault.equals(tbAddress.isDefault) : tbAddress.isDefault != null) return false;
+        if (notes != null ? !notes.equals(tbAddress.notes) : tbAddress.notes != null) return false;
+        if (createDate != null ? !createDate.equals(tbAddress.createDate) : tbAddress.createDate != null) return false;
+        return alias != null ? alias.equals(tbAddress.alias) : tbAddress.alias == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (userId != null ? userId.hashCode() : 0);
+        result = 31 * result + (provinceId != null ? provinceId.hashCode() : 0);
+        result = 31 * result + (cityId != null ? cityId.hashCode() : 0);
+        result = 31 * result + (townId != null ? townId.hashCode() : 0);
+        result = 31 * result + (mobile != null ? mobile.hashCode() : 0);
+        result = 31 * result + (address != null ? address.hashCode() : 0);
+        result = 31 * result + (contact != null ? contact.hashCode() : 0);
+        result = 31 * result + (isDefault != null ? isDefault.hashCode() : 0);
+        result = 31 * result + (notes != null ? notes.hashCode() : 0);
+        result = 31 * result + (createDate != null ? createDate.hashCode() : 0);
+        result = 31 * result + (alias != null ? alias.hashCode() : 0);
+        return result;
+    }
 }

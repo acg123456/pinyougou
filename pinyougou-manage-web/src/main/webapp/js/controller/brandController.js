@@ -13,15 +13,58 @@ var app = new Vue({
         entity: {},
         //要删除的id数组
         ids: [],
-        //搜索条件
-        searchEntity:{}
 
+        //搜索条件
+        searchEntity:{},
+        //全选是否选中
+        checkedFlag:false,
+    },
+    watch:{
+      ids:function (newVal, oldVal) {
+          if (this.ids.length!=this.entityList.length){
+              this.checkedFlag = false;
+          }else{
+              this.checkedFlag = true;
+          }
+      }
+    },
+    filters:{
+        transferLowercase:function (firstChar) {
+            return firstChar.toLowerCase();
+        }
     },
     methods: {
+        //反选
+        checkInverse:function () {
+            var arr = [];
+            for (var i = 0;i<this.entityList.length;i++){
+                arr.push(this.entityList[i].id)
+            }
+            for (var i = 0;i<this.ids.length;i++){
+                var element = this.ids[i];
+                arr.forEach(function (item, index, arr) {
+                    if (item == element){
+                        arr.splice(index,1)
+                    }
+                })
+            }
+            this.ids = arr;
+        },
+        //全选
+        checkAll:function () {
+            if (!this.checkedFlag){
+                for (var i = 0;i<this.entityList.length;i++){
+                    var entity = this.entityList[i];
+                    this.ids[i]=entity.id;
+                }
+            }else{
+                this.ids=[];
+            }
+        },
         //删除
         deleteList: function(){
             if (this.ids.length == 0) {
-                alert("请先选择之后再删除！");
+                alert("请先选择之后再删除!");
                 return;
             }
             //confirm 如果点击 确认则true，否则返回false
@@ -62,12 +105,12 @@ var app = new Vue({
         searchList: function (curPage) {
             this.pageNum = curPage;
 
-            /*axios.get("../brand/findPage.do?pageNum=" + this.pageNum + "&pageSize=" + this.pageSize).then(function (response) {
-                //设置总记录数
-                app.total = response.data.total;
-                //设置列表
-                app.entityList = response.data.list;
-            });*/
+            // axios.get("../brand/findPage.do?pageNum=" + this.pageNum + "&pageSize=" + this.pageSize).then(function (response) {
+            //     //设置总记录数
+            //     app.total = response.data.total;
+            //     //设置列表
+            //     app.entityList = response.data.list;
+            // });
             axios.post("../brand/search.do?pageNum=" + this.pageNum + "&pageSize="+this.pageSize, this.searchEntity).then(function (response) {
                 //设置总记录数
                 app.total = response.data.total;
@@ -79,13 +122,13 @@ var app = new Vue({
     },
     created() {
         //加载品牌数据
-        /*
-                    axios.get("../brand/findAll.do").then(function (response) {
-                        console.log(response);
+
+                    //axios.get("../brand/findAll.do").then(function (response) {
+                     //   console.log(response);
                         //因为在axios的回调方法中this表示窗口window，不是vue对象；app 是vue对象对应的变量名称
-                        app.entityList = response.data;
-                    });
-        */
+                     //   app.entityList = response.data;
+                   // });
+
         this.searchList(1);
     }
 });
